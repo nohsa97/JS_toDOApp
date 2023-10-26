@@ -1,7 +1,10 @@
-let list = [];
+
 const toDo_box = document.querySelector('.list');
 
 const create_new_btn = document.querySelector('#addTodo');
+
+
+let toDo_list = [];
 
 create_new_btn.addEventListener('click', add_todo);
 
@@ -12,7 +15,7 @@ function add_todo() {
         complete : false
     }
 
-    list.unshift(new_item);
+    toDo_list.unshift(new_item);
 
     const newTodo_input = make_input_box(new_item);
 
@@ -108,7 +111,8 @@ function make_input_box(item) {
     })
 
     toDo_btn_disturb.addEventListener('click', () => {
-        list = list.filter(t => t.id !== item.id);
+
+        toDo_list = toDo_list.filter(t => t.id !== item.id);
         add_list()
         box.remove();
 
@@ -122,24 +126,27 @@ function make_input_box(item) {
 function display_list () {
     load_list ();
 
-    for(let i = list.length - 1; i >= 0; i--) {
-        const item = list[i];
+
+    for(let i = toDo_list.length - 1; i >= 0; i--) {
+        const item = toDo_list[i];
         toDo_box.prepend(make_input_box(item));
     }
+
+
     
 }
 
 display_list();
 
 function add_list() {
-    const item_obj = JSON.stringify(list);
+    const item_obj = JSON.stringify(toDo_list);
     
-    localStorage.setItem('list', item_obj);
+    window.localStorage.setItem('list', item_obj);
 }
 
 function load_list () {
     const save_list = localStorage.getItem('list');
-    if(list) {
-        list = JSON.parse(save_list);
+    if(save_list) {
+        toDo_list = JSON.parse(save_list);
     }
 }
